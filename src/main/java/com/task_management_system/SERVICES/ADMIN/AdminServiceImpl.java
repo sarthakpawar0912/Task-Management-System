@@ -84,7 +84,6 @@ public class AdminServiceImpl implements AdminService {
     public TaskDTO updateTask(Long id, TaskDTO taskDTO) {
         Optional<Task> optionalTask = taskRepository.findById(id);
         Optional<User> optionalUser = userRepository.findById(taskDTO.getEmployeeId());
-
         if (optionalTask.isPresent()) {
             Task task = optionalTask.get();
             task.setTitle(taskDTO.getTitle());
@@ -97,7 +96,6 @@ public class AdminServiceImpl implements AdminService {
             } else {
                 throw new EntityNotFoundException("User not found with id: " + taskDTO.getEmployeeId());
             }
-
             task = taskRepository.save(task);
             return task.getTaskDTO();
         }
