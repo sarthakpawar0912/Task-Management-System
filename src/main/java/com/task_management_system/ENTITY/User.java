@@ -26,10 +26,6 @@ public class User implements UserDetails {
     @Enumerated(EnumType.STRING)
     private UserRole userRole;
 
-
-
-
-
     @Override
     public Collection<? extends GrantedAuthority> getAuthorities() {
         return List.of(new SimpleGrantedAuthority(userRole.name()));
@@ -44,8 +40,6 @@ public class User implements UserDetails {
     public String getPassword() {
         return password;
     }
-
-
 
     @Override
     public boolean isAccountNonExpired() {
@@ -75,5 +69,4 @@ public class User implements UserDetails {
         userDto.setUserRole(userRole);
         return userDto;
     }
-
 }
