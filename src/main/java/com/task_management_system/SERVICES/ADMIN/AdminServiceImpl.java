@@ -24,6 +24,7 @@ import java.util.stream.Collectors;
 
 @Service
 public class AdminServiceImpl implements AdminService {
+
     private final UserRepository userRepository;
 
     private final TaskRepository taskRepository;
@@ -38,7 +39,6 @@ public class AdminServiceImpl implements AdminService {
         this.jwtUtil = jwtUtil;
         this.commentRepository = commentRepository;
     }
-
 
     @Override
     public List<UserDto> getUsers() {
@@ -92,7 +92,6 @@ public class AdminServiceImpl implements AdminService {
             task.setDueDate(taskDTO.getDueDate());
             task.setPriority(taskDTO.getPriority());
             task.setTaskStatus(mapStringToTaskStatus(taskDTO.getTaskStatus().name()));
-
             if (optionalUser.isPresent()) {
                 task.setUser(optionalUser.get());
             } else {
@@ -114,7 +113,6 @@ public class AdminServiceImpl implements AdminService {
             default -> TaskStatus.CANCELLED;
         };
     }
-
 
     @Override
     public List<TaskDTO>  SearchTaskByTitle(String title) {
@@ -147,5 +145,4 @@ public class AdminServiceImpl implements AdminService {
                 .collect(Collectors.toList());
 
     }
-
 }
