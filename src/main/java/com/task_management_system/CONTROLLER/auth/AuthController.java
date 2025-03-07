@@ -26,14 +26,19 @@ import java.util.Optional;
 @RequiredArgsConstructor
 @CrossOrigin("*")
 public class AuthController {
+
     @Autowired
     private AuthService authService;
+
     @Autowired
     private UserRepository userRepository;
+
     @Autowired
     private JwtUtil jwtUtil;
+
     @Autowired
     private UserService userService;
+
     @Autowired
     private AuthenticationManager authenticationManager;
 
@@ -67,6 +72,4 @@ public class AuthController {
         }
         return authenticationResponse;
     }
-
-
 }
