@@ -1,5 +1,4 @@
 package com.task_management_system.CONFIGS;
-
 import com.task_management_system.SERVICES.JWT.UserService;
 import com.task_management_system.UTILS.JwtUtil;
 import jakarta.servlet.FilterChain;
@@ -18,17 +17,14 @@ import org.springframework.stereotype.Component;
 import org.springframework.web.filter.OncePerRequestFilter;
 
 import java.io.IOException;
-
 @Component
 @RequiredArgsConstructor
 public class JwtAuthenticationFilter extends OncePerRequestFilter {
 
     @Autowired
     private JwtUtil jwtUtil;
-
     @Autowired
     private UserService userService;
-
     @Override
     protected void doFilterInternal(@NonNull HttpServletRequest request, @NonNull HttpServletResponse response, @NonNull FilterChain filterChain)
             throws ServletException, IOException {
