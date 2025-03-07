@@ -27,12 +27,10 @@ import java.util.List;
 public class WebSecurityConfig  {
     private final JwtAuthenticationFilter jwtAuthenticationFilter;
     private final UserService userService;
-
     public WebSecurityConfig(JwtAuthenticationFilter jwtAuthenticationFilter, UserService userService) {
         this.jwtAuthenticationFilter = jwtAuthenticationFilter;
         this.userService = userService;
     }
-
 
     @Bean
     public SecurityFilterChain filterChain(HttpSecurity http) throws Exception {
@@ -65,7 +63,6 @@ public class WebSecurityConfig  {
 
         return http.build();
     }
-
     @Bean
     public AuthenticationProvider authenticationProvider() {
         DaoAuthenticationProvider authProvider = new DaoAuthenticationProvider();
@@ -73,12 +70,10 @@ public class WebSecurityConfig  {
         authProvider.setPasswordEncoder(passwordEncoder()); // Set password encoder
         return authProvider;
     }
-
     @Bean
     public PasswordEncoder passwordEncoder() {
         return new BCryptPasswordEncoder(); // Use BCrypt for password encoding
     }
-
     @Bean
     public AuthenticationManager authenticationManager(AuthenticationConfiguration authenticationConfiguration) throws Exception {
         return authenticationConfiguration.getAuthenticationManager(); // Get AuthenticationManager
