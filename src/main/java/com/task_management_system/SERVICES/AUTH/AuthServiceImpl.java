@@ -21,9 +21,11 @@ public class AuthServiceImpl implements AuthService {
 
     @Autowired
     private PasswordEncoder passwordEncoder;
+
     public AuthServiceImpl(UserRepository userRepository) {
         this.userRepository = userRepository;
     }
+
 
     @PostConstruct
     public  void createAnAdminAccount() {
@@ -42,6 +44,7 @@ public class AuthServiceImpl implements AuthService {
         }
     }
 
+
   @Override
     public UserDto signupUser(SignupRequest signupRequest) {
         User user=new User();
@@ -52,6 +55,7 @@ public class AuthServiceImpl implements AuthService {
         User createduser=  userRepository.save(user);
         return createduser.getuserDto();
     }
+
 
     @Override
     public boolean hasUserWithEmail(String email) {
