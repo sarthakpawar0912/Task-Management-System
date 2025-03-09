@@ -95,7 +95,6 @@ public class EmployeeServiceImpl implements  EmployeeService {
         return commentRepository.save(comment).getCommentDTO();
     }
 
-
     @Override
     public List<CommentDTO> getCommentsByTaskId(Long taskId) {
         return commentRepository.findAllByTaskId(taskId)
