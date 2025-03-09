@@ -12,7 +12,9 @@ public interface AdminService {
     TaskDTO createTask(TaskDTO taskDTO);
 
     List<TaskDTO>getAllTasks();
+
     void deleteTask(Long id);
+
     TaskDTO updateTask(Long id,TaskDTO taskDTO);
     List<TaskDTO>  SearchTaskByTitle(String title);
     TaskDTO getTaskById(Long id);
