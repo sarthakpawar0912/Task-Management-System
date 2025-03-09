@@ -79,23 +79,19 @@ public class EmployeeServiceImpl implements  EmployeeService {
     public CommentDTO createComment(Long taskId, String content) {
         System.out.println("Looking for Task ID: " + taskId);
         Optional<Task> optionalTask = taskRepository.findById(taskId);
-
         User user = jwtUtil.getLoggedInUser();
         System.out.println("Logged-in User: " + (user != null ? user.getEmail() : "No user found"));
-
         if (optionalTask.isEmpty()) {
             throw new EntityNotFoundException("Task with ID " + taskId + " not found.");
         }
         if (user == null) {
             throw new EntityNotFoundException("User not found or not authenticated.");
         }
-
         Comment comment = new Comment();
         comment.setCreatedAt(new Date());
         comment.setContent(content);
         comment.setTask(optionalTask.get());
         comment.setUser(user);
-
         return commentRepository.save(comment).getCommentDTO();
     }
 
