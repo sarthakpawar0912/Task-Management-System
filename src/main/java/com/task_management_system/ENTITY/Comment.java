@@ -18,6 +18,7 @@ public class Comment {
     private Long id;
     private String content;
     private Date createdAt;
+
     @ManyToOne(fetch = FetchType.LAZY, optional = false)
     @JoinColumn(name = "user_id", nullable = false)
     @OnDelete(action = OnDeleteAction.CASCADE)
@@ -36,7 +37,7 @@ public class Comment {
         commentDTO.setContent(this.content);
         commentDTO.setCreatedAt(this.createdAt);
         commentDTO.setTaskId(this.task.getId());
-        commentDTO.setUserId(this.user.getId()); // Added this line
+        commentDTO.setUserId(this.user.getId());
         commentDTO.setPostedBy(user.getName());
         return commentDTO;
     }
