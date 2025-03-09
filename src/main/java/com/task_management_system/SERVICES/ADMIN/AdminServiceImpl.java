@@ -141,7 +141,6 @@ public class AdminServiceImpl implements AdminService {
         return commentRepository.save(comment).getCommentDTO();
     }
 
-
     @Override
     public List<CommentDTO> getCommentsByTaskId(Long taskId) {
         return commentRepository.findAllByTaskId(taskId)
