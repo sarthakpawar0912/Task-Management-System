@@ -25,8 +25,11 @@ import java.util.List;
 @EnableWebSecurity
 @EnableMethodSecurity
 public class WebSecurityConfig  {
+
     private final JwtAuthenticationFilter jwtAuthenticationFilter;
+
     private final UserService userService;
+
     public WebSecurityConfig(JwtAuthenticationFilter jwtAuthenticationFilter, UserService userService) {
         this.jwtAuthenticationFilter = jwtAuthenticationFilter;
         this.userService = userService;
@@ -63,6 +66,7 @@ public class WebSecurityConfig  {
 
         return http.build();
     }
+
     @Bean
     public AuthenticationProvider authenticationProvider() {
         DaoAuthenticationProvider authProvider = new DaoAuthenticationProvider();
@@ -70,6 +74,7 @@ public class WebSecurityConfig  {
         authProvider.setPasswordEncoder(passwordEncoder()); // Set password encoder
         return authProvider;
     }
+
     @Bean
     public PasswordEncoder passwordEncoder() {
         return new BCryptPasswordEncoder(); // Use BCrypt for password encoding
@@ -78,5 +83,4 @@ public class WebSecurityConfig  {
     public AuthenticationManager authenticationManager(AuthenticationConfiguration authenticationConfiguration) throws Exception {
         return authenticationConfiguration.getAuthenticationManager(); // Get AuthenticationManager
     }
-
 }
