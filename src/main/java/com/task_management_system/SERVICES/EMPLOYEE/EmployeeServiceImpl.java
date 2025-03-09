@@ -32,7 +32,6 @@ public class EmployeeServiceImpl implements  EmployeeService {
         this.commentRepository = commentRepository;
     }
 
-
     @Override
     public List<TaskDTO> getTasksByUserId() {
         User user = jwtUtil.getLoggedInUser();
@@ -52,10 +51,8 @@ public class EmployeeServiceImpl implements  EmployeeService {
         if (optionalTask.isPresent()) {
             Task task = optionalTask.get();
             task.setTaskStatus(mapStringToTaskStatus(status));
-
             // ✅ Save updated task in the database
             taskRepository.save(task);
-
             return task.getTaskDTO();
         }
         throw new EntityNotFoundException("Task not found");
@@ -77,7 +74,6 @@ public class EmployeeServiceImpl implements  EmployeeService {
         Optional<Task> optionalTask = taskRepository.findById(id);
         return optionalTask.map(Task::getTaskDTO).orElse(null);
     }
-
 
     @Override
     public CommentDTO createComment(Long taskId, String content) {
