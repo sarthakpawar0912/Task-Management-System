@@ -42,6 +42,7 @@ public class AuthController {
     @Autowired
     private AuthenticationManager authenticationManager;
 
+
     @PostMapping("/signup")
     public ResponseEntity<?> signupUser(@RequestBody SignupRequest signupRequest){
         if(authService.hasUserWithEmail(signupRequest.getEmail()))
@@ -72,4 +73,5 @@ public class AuthController {
         }
         return authenticationResponse;
     }
+
 }
