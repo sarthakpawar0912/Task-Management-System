@@ -45,18 +45,11 @@ public class EmployeeController {
             @RequestBody CommentDTO commentDTO) {
 
         CommentDTO createdCommentDTO = employeeService.createComment(taskId, commentDTO.getContent());
-
         return ResponseEntity.status(HttpStatus.CREATED).body(createdCommentDTO);
     }
-
 
     @GetMapping("/comments/{taskId}")
     public ResponseEntity<List<CommentDTO>> getCommentsByTaskId(@PathVariable Long taskId){
         return ResponseEntity.ok(employeeService.getCommentsByTaskId(taskId));
     }
-
-
-
-
-
 }
