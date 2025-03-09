@@ -29,6 +29,8 @@ public class Task {
     private User user;
     public TaskDTO getTaskDTO(){
         TaskDTO taskDTO = new TaskDTO();
+
+        taskDTO.setId(this.id);
         taskDTO.setTitle(title);
         taskDTO.setDescription(description);
         taskDTO.setDueDate(dueDate);

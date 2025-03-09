@@ -31,8 +31,8 @@ public class AdminController {
     }
 
     @GetMapping("/tasks")
-    public ResponseEntity<?>getAllTasks(){
-        return    ResponseEntity.ok(adminService.getAllTasks());
+    public ResponseEntity<?> getAllTasks() {
+        return ResponseEntity.ok(adminService.getAllTasks());
     }
 
     @DeleteMapping("/task/{id}")
@@ -41,32 +41,35 @@ public class AdminController {
         return ResponseEntity.ok(null);
     }
 
-    @GetMapping("/task/{id}")
-    public ResponseEntity<TaskDTO> getTaskById(@PathVariable Long id){
 
-        return ResponseEntity.ok(adminService.getTaskById(id));
-    }
 
     @PutMapping("/task/{id}")
-    public ResponseEntity<?>updateTask(@PathVariable Long id,@RequestBody TaskDTO taskDTO) {
+    public ResponseEntity<TaskDTO> updateTask(@PathVariable Long id, @RequestBody TaskDTO taskDTO) {
         TaskDTO updatedTask = adminService.updateTask(id, taskDTO);
-        if (updatedTask == null) {
-            return ResponseEntity.notFound().build();
-        }
-        return ResponseEntity.ok(updatedTask);
+        return updatedTask != null ? ResponseEntity.ok(updatedTask) : ResponseEntity.notFound().build();
     }
+
 
     @GetMapping("/task/search/{title}")
     public ResponseEntity<List<TaskDTO>> searchTask(@PathVariable String title){
         return ResponseEntity.ok(adminService.SearchTaskByTitle(title));
     }
 
+    @GetMapping("/task/{id}")
+    public ResponseEntity<TaskDTO> getTaskById(@PathVariable Long id) {
+        return ResponseEntity.ok(adminService.getTaskById(id));
+    }
+
     @PostMapping("/task/comment/{taskId}")
-    public ResponseEntity<CommentDTO> createComment(@PathVariable Long taskId,@RequestParam String content) {
-        CommentDTO createdCommentDTO = adminService.createComment(taskId, content);
-        if (createdCommentDTO == null) return ResponseEntity.status(HttpStatus.BAD_REQUEST).build();
+    public ResponseEntity<CommentDTO> createComment(
+            @PathVariable Long taskId,
+            @RequestBody CommentDTO commentDTO) {
+
+        CommentDTO createdCommentDTO = adminService.createComment(taskId, commentDTO.getContent());
+
         return ResponseEntity.status(HttpStatus.CREATED).body(createdCommentDTO);
     }
+
 
     @GetMapping("/comments/{taskId}")
     public ResponseEntity<List<CommentDTO>> getCommentsByTaskId(@PathVariable Long taskId){

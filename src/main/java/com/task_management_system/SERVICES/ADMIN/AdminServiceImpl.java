@@ -24,13 +24,9 @@ import java.util.stream.Collectors;
 
 @Service
 public class AdminServiceImpl implements AdminService {
-
     private final UserRepository userRepository;
-
     private final TaskRepository taskRepository;
-
     private final JwtUtil jwtUtil;
-
     private final CommentRepository commentRepository;
 
     public AdminServiceImpl(UserRepository userRepository, TaskRepository taskRepository, JwtUtil jwtUtil, CommentRepository commentRepository) {
@@ -42,13 +38,15 @@ public class AdminServiceImpl implements AdminService {
 
     @Override
     public List<UserDto> getUsers() {
-        return userRepository.findAll().stream().filter(user->user.getUserRole()== UserRole.EMPLOYEE)
-                .map(User::getuserDto).collect(Collectors.toList());
+        return userRepository.findAll().stream()
+                .filter(user -> user.getUserRole() == UserRole.EMPLOYEE)
+                .map(User::getuserDto)
+                .collect(Collectors.toList());
     }
 
     @Override
     public TaskDTO createTask(TaskDTO taskDTO) {
-        Optional<User> optionalUser=userRepository.findById(taskDTO.getEmployeeId());
+        Optional<User> optionalUser = userRepository.findById(taskDTO.getEmployeeId());
         if (optionalUser.isPresent()) {
             Task task = new Task();
             task.setTitle(taskDTO.getTitle());
@@ -75,31 +73,30 @@ public class AdminServiceImpl implements AdminService {
         taskRepository.deleteById(id);
     }
 
-    @Override
-    public TaskDTO getTaskById(Long id) {
-        Optional<Task> optionalTask = taskRepository.findById(id);
-        return optionalTask.map(Task::getTaskDTO).orElse(null);
 
-    }@Override
+    @Override
     public TaskDTO updateTask(Long id, TaskDTO taskDTO) {
         Optional<Task> optionalTask = taskRepository.findById(id);
         Optional<User> optionalUser = userRepository.findById(taskDTO.getEmployeeId());
-        if (optionalTask.isPresent()) {
+
+        if (optionalTask.isPresent() && optionalUser.isPresent()) {
             Task task = optionalTask.get();
             task.setTitle(taskDTO.getTitle());
             task.setDescription(taskDTO.getDescription());
             task.setDueDate(taskDTO.getDueDate());
             task.setPriority(taskDTO.getPriority());
-            task.setTaskStatus(mapStringToTaskStatus(taskDTO.getTaskStatus().name()));
-            if (optionalUser.isPresent()) {
-                task.setUser(optionalUser.get());
+
+            // ✅ Null check to avoid NullPointerException
+            if (taskDTO.getTaskStatus() != null) {
+                task.setTaskStatus(mapStringToTaskStatus(taskDTO.getTaskStatus().name()));
             } else {
-                throw new EntityNotFoundException("User not found with id: " + taskDTO.getEmployeeId());
+                task.setTaskStatus(task.getTaskStatus()); // Retain existing status if null
             }
-            task = taskRepository.save(task);
-            return task.getTaskDTO();
+
+            task.setUser(optionalUser.get());
+            return taskRepository.save(task).getTaskDTO();
         }
-        throw new EntityNotFoundException("Task not found with id: " + id);
+        throw new EntityNotFoundException("Task or User not found");
     }
 
     private TaskStatus mapStringToTaskStatus(String status) {
@@ -113,7 +110,7 @@ public class AdminServiceImpl implements AdminService {
     }
 
     @Override
-    public List<TaskDTO>  SearchTaskByTitle(String title) {
+    public List<TaskDTO> SearchTaskByTitle(String title) {
         return taskRepository.findAllByTitleContaining(title)
                 .stream()
                 .sorted(Comparator.comparing(Task::getDueDate).reversed())
@@ -122,25 +119,42 @@ public class AdminServiceImpl implements AdminService {
     }
 
     @Override
-    public CommentDTO createComment(Long taskId, String content) {
-        Optional<Task> optionalTask=taskRepository.findById(taskId);
-        User user=jwtUtil.getLoggedInUser();
-        if((optionalTask.isPresent()) && user!=null){
-            Comment comment=new Comment();
-            comment.setCreatedAt(new Date());
-            comment.setContent(content);
-            comment.setTask(optionalTask.get());
-            comment.setUser(user);
-            return commentRepository.save(comment).getCommentDTO();
-        }
-        throw new EntityNotFoundException("User or Task not found");
+    public TaskDTO getTaskById(Long id) {
+        Optional<Task> optionalTask = taskRepository.findById(id);
+        return optionalTask.map(Task::getTaskDTO).orElse(null);
     }
+
+
+    @Override
+    public CommentDTO createComment(Long taskId, String content) {
+        System.out.println("Looking for Task ID: " + taskId);
+        Optional<Task> optionalTask = taskRepository.findById(taskId);
+
+        User user = jwtUtil.getLoggedInUser();
+        System.out.println("Logged-in User: " + (user != null ? user.getEmail() : "No user found"));
+
+        if (optionalTask.isEmpty()) {
+            throw new EntityNotFoundException("Task with ID " + taskId + " not found.");
+        }
+        if (user == null) {
+            throw new EntityNotFoundException("User not found or not authenticated.");
+        }
+
+        Comment comment = new Comment();
+        comment.setCreatedAt(new Date());
+        comment.setContent(content);
+        comment.setTask(optionalTask.get());
+        comment.setUser(user);
+
+        return commentRepository.save(comment).getCommentDTO();
+    }
+
 
     @Override
     public List<CommentDTO> getCommentsByTaskId(Long taskId) {
         return commentRepository.findAllByTaskId(taskId)
-                .stream().map(Comment::getCommentDTO)
+                .stream()
+                .map(Comment::getCommentDTO)
                 .collect(Collectors.toList());
-
     }
 }

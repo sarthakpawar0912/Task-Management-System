@@ -16,17 +16,13 @@ public class Comment {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
-
     private String content;
-
     private Date createdAt;
-
     @ManyToOne(fetch = FetchType.LAZY, optional = false)
     @JoinColumn(name = "user_id", nullable = false)
     @OnDelete(action = OnDeleteAction.CASCADE)
     @JsonIgnore
     private User user;
-
 
     @ManyToOne(fetch = FetchType.LAZY, optional = false)
     @JoinColumn(name = "task_id", nullable = false)
@@ -34,16 +30,15 @@ public class Comment {
     @JsonIgnore
     private Task task;
 
-    public CommentDTO getCommentDTO()
-    {
+    public CommentDTO getCommentDTO() {
         CommentDTO commentDTO = new CommentDTO();
         commentDTO.setId(this.id);
         commentDTO.setContent(this.content);
         commentDTO.setCreatedAt(this.createdAt);
         commentDTO.setTaskId(this.task.getId());
+        commentDTO.setUserId(this.user.getId()); // Added this line
         commentDTO.setPostedBy(user.getName());
         return commentDTO;
     }
-
 
 }

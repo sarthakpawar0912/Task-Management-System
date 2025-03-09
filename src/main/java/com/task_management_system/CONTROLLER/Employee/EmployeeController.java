@@ -1,6 +1,7 @@
 package com.task_management_system.CONTROLLER.Employee;
 
 
+import com.task_management_system.DTO.CommentDTO;
 import com.task_management_system.DTO.TaskDTO;
 import com.task_management_system.SERVICES.EMPLOYEE.EmployeeService;
 import org.springframework.http.HttpStatus;
@@ -25,11 +26,37 @@ public class EmployeeController {
         return ResponseEntity.ok(employeeService.getTasksByUserId());
     }
 
-    @GetMapping("/tasks/{id}/{status}")
-    public ResponseEntity<TaskDTO> updateTask(@PathVariable Long id, @RequestParam String status){
-        TaskDTO updateTaskDTO=employeeService.updateTask(id,status);
-        if(updateTaskDTO==null)
+    @GetMapping("/task/updateStatus")
+    public ResponseEntity<TaskDTO> updateTask(@RequestParam Long id, @RequestParam String status) {
+        TaskDTO updatedTaskDTO = employeeService.updateTask(id, status);
+        if (updatedTaskDTO == null)
             return ResponseEntity.status(HttpStatus.BAD_REQUEST).build();
-        return ResponseEntity.ok(updateTaskDTO);
+        return ResponseEntity.ok(updatedTaskDTO);
     }
+
+    @GetMapping("/task/{id}")
+    public ResponseEntity<TaskDTO> getTaskById(@PathVariable Long id) {
+        return ResponseEntity.ok(employeeService.getTaskById(id));
+    }
+
+    @PostMapping("/task/comment/{taskId}")
+    public ResponseEntity<CommentDTO> createComment(
+            @PathVariable Long taskId,
+            @RequestBody CommentDTO commentDTO) {
+
+        CommentDTO createdCommentDTO = employeeService.createComment(taskId, commentDTO.getContent());
+
+        return ResponseEntity.status(HttpStatus.CREATED).body(createdCommentDTO);
+    }
+
+
+    @GetMapping("/comments/{taskId}")
+    public ResponseEntity<List<CommentDTO>> getCommentsByTaskId(@PathVariable Long taskId){
+        return ResponseEntity.ok(employeeService.getCommentsByTaskId(taskId));
+    }
+
+
+
+
+
 }
