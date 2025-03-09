@@ -41,14 +41,11 @@ public class AdminController {
         return ResponseEntity.ok(null);
     }
 
-
-
     @PutMapping("/task/{id}")
     public ResponseEntity<TaskDTO> updateTask(@PathVariable Long id, @RequestBody TaskDTO taskDTO) {
         TaskDTO updatedTask = adminService.updateTask(id, taskDTO);
         return updatedTask != null ? ResponseEntity.ok(updatedTask) : ResponseEntity.notFound().build();
     }
-
 
     @GetMapping("/task/search/{title}")
     public ResponseEntity<List<TaskDTO>> searchTask(@PathVariable String title){
@@ -64,15 +61,13 @@ public class AdminController {
     public ResponseEntity<CommentDTO> createComment(
             @PathVariable Long taskId,
             @RequestBody CommentDTO commentDTO) {
-
         CommentDTO createdCommentDTO = adminService.createComment(taskId, commentDTO.getContent());
-
         return ResponseEntity.status(HttpStatus.CREATED).body(createdCommentDTO);
     }
-
 
     @GetMapping("/comments/{taskId}")
     public ResponseEntity<List<CommentDTO>> getCommentsByTaskId(@PathVariable Long taskId){
         return ResponseEntity.ok(adminService.getCommentsByTaskId(taskId));
     }
+
 }
