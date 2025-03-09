@@ -5,10 +5,10 @@ import com.task_management_system.DTO.TaskDTO;
 import com.task_management_system.DTO.UserDto;
 
 import java.util.List;
-
 public interface AdminService {
 
     List<UserDto> getUsers();
+
     TaskDTO createTask(TaskDTO taskDTO);
     List<TaskDTO>getAllTasks();
     void deleteTask(Long id);
