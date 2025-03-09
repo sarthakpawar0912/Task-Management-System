@@ -24,6 +24,7 @@ import java.util.stream.Collectors;
 
 @Service
 public class AdminServiceImpl implements AdminService {
+
     private final UserRepository userRepository;
     private final TaskRepository taskRepository;
     private final JwtUtil jwtUtil;
@@ -73,26 +74,22 @@ public class AdminServiceImpl implements AdminService {
         taskRepository.deleteById(id);
     }
 
-
     @Override
     public TaskDTO updateTask(Long id, TaskDTO taskDTO) {
         Optional<Task> optionalTask = taskRepository.findById(id);
         Optional<User> optionalUser = userRepository.findById(taskDTO.getEmployeeId());
-
         if (optionalTask.isPresent() && optionalUser.isPresent()) {
             Task task = optionalTask.get();
             task.setTitle(taskDTO.getTitle());
             task.setDescription(taskDTO.getDescription());
             task.setDueDate(taskDTO.getDueDate());
             task.setPriority(taskDTO.getPriority());
-
             // ✅ Null check to avoid NullPointerException
             if (taskDTO.getTaskStatus() != null) {
                 task.setTaskStatus(mapStringToTaskStatus(taskDTO.getTaskStatus().name()));
             } else {
                 task.setTaskStatus(task.getTaskStatus()); // Retain existing status if null
             }
-
             task.setUser(optionalUser.get());
             return taskRepository.save(task).getTaskDTO();
         }
