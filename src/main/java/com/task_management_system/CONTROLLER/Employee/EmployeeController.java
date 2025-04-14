@@ -1,6 +1,5 @@
 package com.task_management_system.CONTROLLER.Employee;
 
-
 import com.task_management_system.DTO.CommentDTO;
 import com.task_management_system.DTO.TaskDTO;
 import com.task_management_system.SERVICES.EMPLOYEE.EmployeeService;
@@ -15,16 +14,20 @@ import java.util.List;
 @CrossOrigin("*")
 public class EmployeeController {
 
+
     private final EmployeeService employeeService;
+
 
     public EmployeeController(EmployeeService employeeService) {
         this.employeeService = employeeService;
     }
 
+
     @GetMapping("/tasks")
     public ResponseEntity<List<TaskDTO>> getTaskByUserId(){
         return ResponseEntity.ok(employeeService.getTasksByUserId());
     }
+
 
     @GetMapping("/task/updateStatus")
     public ResponseEntity<TaskDTO> updateTask(@RequestParam Long id, @RequestParam String status) {
@@ -34,10 +37,12 @@ public class EmployeeController {
         return ResponseEntity.ok(updatedTaskDTO);
     }
 
+
     @GetMapping("/task/{id}")
     public ResponseEntity<TaskDTO> getTaskById(@PathVariable Long id) {
         return ResponseEntity.ok(employeeService.getTaskById(id));
     }
+
 
     @PostMapping("/task/comment/{taskId}")
     public ResponseEntity<CommentDTO> createComment(
@@ -47,6 +52,7 @@ public class EmployeeController {
         CommentDTO createdCommentDTO = employeeService.createComment(taskId, commentDTO.getContent());
         return ResponseEntity.status(HttpStatus.CREATED).body(createdCommentDTO);
     }
+
 
     @GetMapping("/comments/{taskId}")
     public ResponseEntity<List<CommentDTO>> getCommentsByTaskId(@PathVariable Long taskId){
