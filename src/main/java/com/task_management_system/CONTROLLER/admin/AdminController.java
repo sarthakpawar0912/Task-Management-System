@@ -14,13 +14,16 @@ import java.util.List;
 @CrossOrigin("*")
 public class AdminController {
 
+
     @Autowired
     private AdminService adminService;
+
 
     @GetMapping("/users")
     public ResponseEntity<?> getUsers(){
         return    ResponseEntity.ok(adminService.getUsers());
     }
+
 
     @PostMapping("/task")
     public ResponseEntity<TaskDTO> createTask(@RequestBody TaskDTO taskDTO) {
