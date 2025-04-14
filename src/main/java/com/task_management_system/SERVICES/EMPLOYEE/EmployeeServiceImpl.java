@@ -23,7 +23,9 @@ import java.util.stream.Collectors;
 public class EmployeeServiceImpl implements  EmployeeService {
 
     private final TaskRepository taskRepository;
+
     private final JwtUtil jwtUtil;
+
     private final CommentRepository commentRepository;
 
     public EmployeeServiceImpl(TaskRepository taskRepository, JwtUtil jwtUtil, CommentRepository commentRepository) {
