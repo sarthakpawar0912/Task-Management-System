@@ -18,8 +18,11 @@ public class Task {
     private Long id;
 
     private String title;
+
     private String description;
+
     private Date dueDate;
+
     private String priority;
 
     @Enumerated(EnumType.STRING)
