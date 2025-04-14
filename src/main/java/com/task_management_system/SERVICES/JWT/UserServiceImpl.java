@@ -1,4 +1,5 @@
 package com.task_management_system.SERVICES.JWT;
+
 import com.task_management_system.ENTITY.User;
 import com.task_management_system.REPOSITORY.UserRepository;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -33,4 +34,5 @@ public class UserServiceImpl implements  UserService{
                 List.of(new SimpleGrantedAuthority(user.getUserRole().name())) // Convert role to GrantedAuthority
         );
     }
+
 }
