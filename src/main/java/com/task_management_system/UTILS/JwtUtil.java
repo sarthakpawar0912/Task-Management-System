@@ -22,9 +22,11 @@ import java.util.function.Function;
 public class JwtUtil {
 
     private final UserRepository userRepository;
+
     public JwtUtil(UserRepository userRepository) {
         this.userRepository = userRepository;
     }
+
     public String generateToken(UserDetails userDetails){
         return generateToken(new HashMap<>(),userDetails);
     }
