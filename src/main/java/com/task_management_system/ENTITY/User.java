@@ -11,7 +11,6 @@ import org.springframework.security.core.userdetails.UserDetails;
 import java.util.Collection;
 import java.util.List;
 
-
 @Entity
 @Data
 @Table(name = "users")
@@ -20,8 +19,11 @@ public class User implements UserDetails {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
+
     private String name;
+
     private String email;
+
     private String password;
 
     @Enumerated(EnumType.STRING)
@@ -64,10 +66,13 @@ public class User implements UserDetails {
 
     public UserDto getuserDto(){
         UserDto userDto=new UserDto();
+
         userDto.setId(id);
         userDto.setName(name);
         userDto.setEmail(email);
         userDto.setUserRole(userRole);
+
         return userDto;
     }
+
 }
