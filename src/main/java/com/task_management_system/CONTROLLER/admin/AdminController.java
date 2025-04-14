@@ -33,16 +33,19 @@ public class AdminController {
         return ResponseEntity.status(HttpStatus.CREATED).body(createdTaskDTO);
     }
 
+
     @GetMapping("/tasks")
     public ResponseEntity<?> getAllTasks() {
         return ResponseEntity.ok(adminService.getAllTasks());
     }
+
 
     @DeleteMapping("/task/{id}")
     public  ResponseEntity<Void> deleteTask(@PathVariable Long id){
         adminService.deleteTask(id);
         return ResponseEntity.ok(null);
     }
+
 
     @PutMapping("/task/{id}")
     public ResponseEntity<TaskDTO> updateTask(@PathVariable Long id, @RequestBody TaskDTO taskDTO) {
