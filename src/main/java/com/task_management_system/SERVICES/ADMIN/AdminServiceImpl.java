@@ -26,8 +26,11 @@ import java.util.stream.Collectors;
 public class AdminServiceImpl implements AdminService {
 
     private final UserRepository userRepository;
+
     private final TaskRepository taskRepository;
+
     private final JwtUtil jwtUtil;
+
     private final CommentRepository commentRepository;
 
     public AdminServiceImpl(UserRepository userRepository, TaskRepository taskRepository, JwtUtil jwtUtil, CommentRepository commentRepository) {
