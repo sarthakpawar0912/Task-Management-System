@@ -8,8 +8,11 @@ import java.util.Date;
 public class TaskDTO {
 
     private Long id;
+
     private String title;
+
     private String description;
+
     private Date dueDate;
     private String priority;
     private TaskStatus taskStatus;
