@@ -33,12 +33,5 @@ Welcome to the **Task Management System** – a full-stack application built wit
 
 ---
 
-## 📸 Screenshots
 
-_Add screenshots or a short GIF preview of your app here!_  
-> 📌 Optional: Use [Licecap](https://www.cockos.com/licecap/) or [recordit.co](https://recordit.co/) to record app in action.
-
----
-
-## 🏗️ Project Structure
 
